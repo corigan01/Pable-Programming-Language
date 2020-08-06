@@ -36,7 +36,7 @@ void displayout::out(int enumTypeColor, std::string ToDisplay) {
 void displayout::Threaded_Display() {
     // Start the init for the display thread that will be displaying all content from a thread(s)
     while (!SetToQuit) {
-        usleep(66);
+        
 
         if (!__IsDisplaying) {
         auto ThreadPart = PreDisplayControl;
@@ -54,6 +54,8 @@ void displayout::Threaded_Display() {
                 __IsDisplaying = false;
             }
         }
+
+        usleep(66);
     }
 
 }
