@@ -12,6 +12,8 @@ int main() {
     file.ReadFile("test.txt");
     
 
+    
+
 
 
     usleep(10000); // holds the program for the threads to stop

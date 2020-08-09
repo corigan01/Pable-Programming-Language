@@ -7,10 +7,7 @@
 class FileIO
 {
     private:
-        std::vector<std::string> FileContent;
-        std::string FileLoc;
-        std::string FileName;
-        int LineLen;
+        
 
         std::vector<std::string> LinkLocations; // I dont know if i need this but i will put it in here
 
@@ -45,6 +42,12 @@ class FileIO
         void StartThread();
 
     public:
+        // Files
+        std::vector<std::string> FileContent;
+        std::string FileLoc;
+        std::string FileName;
+        int LineLen;
+
         // Constructing
         FileIO(std::string FileName); // for loading a file right away
         FileIO(); // for waiting to load a file later for global construction
