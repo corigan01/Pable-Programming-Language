@@ -1,20 +1,29 @@
-#include "Base.h"
 #include "displayout.h"
+#include "Base.h"
 #include "FileIO.h"
 
-// Main Thread
+
 int main() {
     displayout dis;
-    dis.out(D_INFO, "Starting Main Thread");
 
-    FileIO file;
+    dis.out(D_INFO, "Does this work");
+	dis.out(D_ERROR, "Stinky poo");
 
-    file.ReadFile("test.txt");
+    for (int i = 0; i < 10; i++) {
+        static int d = 0;
+        d++;
+
+        std::cout << d << std::endl;
+        
+
+
+    }
     
-
     
+ 
 
 
-
-    usleep(10000); // holds the program for the threads to stop
+	usleep(1000);
+	return 0; // closing the program
 }
+

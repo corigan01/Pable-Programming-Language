@@ -1,1 +1,31 @@
 # pable programming language
+
+include "mylib.ppl"
+
+str MY = "sf" // pable
+
+"str MY = \"sf\""
+
+str <-- MY << ["]  <- \"sf\" ->  ["]
+
+(VAR) << MY = std::string(sf)
+
+pable_stack_add_var("MY"); // c++
+pable_stack_set_var("MY", "sf"); // c++
+
+con(MY) // pable
+
+"con(MY)"
+
+con -- ( -- MY -- ) -- 
+
+con --> MY
+
+pable_con(pable_stack_var("MY")); // c++
+
+
+/ / new -----------------
+
+
+con($var_str) --> pable_con(pable_stack_var("$var_str"));
+

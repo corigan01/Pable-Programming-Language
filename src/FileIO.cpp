@@ -21,7 +21,7 @@ FileIO::FileIO() {
 void FileIO::StartThread() {
     Loading_Thread = std::thread(&FileIO::LoadingThread, this); // starts the thread
 
-
+    
 }
 
 

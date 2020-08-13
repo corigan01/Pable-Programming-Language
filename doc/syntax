@@ -1,0 +1,47 @@
+------ .PABLE ------
+
+// var types
+int
+string
+long 
+float
+char
+bool 
+void
+const
+static
+
+// built-ins
+out()
+color_out()
+in()
+
+
+// logic
+or
+and
+not
+==
+!
+||
+&&
+
+
+// colors
+RED
+BLUE
+GREEN
+YELLO
+ORANGE
+
+//basics
+void def NAME():
+
+
+
+
+
+
+
+
+
