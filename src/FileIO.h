@@ -14,33 +14,6 @@ class FileIO
         displayout dis;
 
 
-        // Threaded File ops
-        std::thread Loading_Thread;
-        void LoadingThread();
-        bool ToldToQuit = false;
-        std::vector<std::string> EnumPlusData; // used to pass commands to the LoadingThreadOps enum, like filename or data to add to a file
-
-        // Loading Thread Ops -- Used to keep the file addressable from threads and other memery unsafe areas
-        // Could be fixed latter
-        enum LoadingThreadOps {
-            __LOAD_NULL_OP = 0,
-
-            // Read Write
-            __LOAD_READ_FILE,
-            __LOAD_WRITE_FILE,
-            __LOAD_SAVE,
-
-            // Basic Op
-            __LOAD_APPEND_END,
-            __LOAD_POP,
-            __LOAD_REMOVELOC_LOC,
-            __LOAD_CLEAR_FILE, // <-- This will stop all file ops and clear the file vector
-        };
-        std::vector<LoadingThreadOps> LoadOperation;
-
-        // Function to start the thread
-        void StartThread();
-
     public:
         // Files
         std::vector<std::string> FileContent;
@@ -58,8 +31,8 @@ class FileIO
         void RemoveLoc(int index);
         void Clear();
 
-        // Adv Ops
-        /*TODO*/        
+        // Adv Op's
+        int FileSize(std::string FileName);
 
         // Saving and reading 
         void Save();

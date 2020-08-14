@@ -1,0 +1,4 @@
+out("Hello world!")
+color_out(BLUE, "Hello world!")
+
+
