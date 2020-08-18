@@ -1,25 +1,15 @@
 #include "displayout.h"
 #include "Base.h"
 #include "FileIO.h"
+#include "tokenizer.h"
 
-std::string RemoveWhiteSpace(std::string Content) {
-    int i_size = Content.size();
-    for (int e = 0; e < i_size; e++) {
-        static int index = 0;
-        if (Content[index] == ' ')
-        {
-            Content.erase(Content.begin() + index);
-        }
-        else if (Content[index] == '\"') {
-            do {
-                index++;
-            } while (Content[index] == '\"');
-        }
-        else {
-            index++;
-        }
+void RemoveWhiteSpace(std::string &Content) {
+    int firstchar = Content.find_first_not_of(" ");
+    for (int e = 0; e < firstchar; e++) {
+        Content.erase(Content.begin());
     }
-    return Content;
+
+    //return Content;
 }
 
 
@@ -36,60 +26,177 @@ int main() {
     Token_file.ReadFile("Pable Tokens/Tokens.txt");
 
     std::vector<std::string> VarTypesInToken = {"string", "int"};
-    
-    
+    std::vector<Token> Tokens;
 
 
-    std::vector<std::string> Tokens = Token_file.FileContent;
+    for (auto i : Token_file.FileContent) {
+        auto output = split(i, " ");
 
-
-
-
-    for (auto i : file.FileContent) {
-        dis.out(D_FILE, i);
-
-        
-        i = RemoveWhiteSpace(i);
-
-        
-
-
-        size_t found = i.find("(");
-        if (found != std::string::npos) {
-            dis.out(D_FILE, "Found out command at a pos : " + std::to_string(found));
-
-            std::string FoundToken = i;
-
-            for (int e = found; e < i.size(); e++) {
-                FoundToken.erase(FoundToken.begin() + found);
-            }
-
-            dis.out(D_FILE, FoundToken);
-
-            bool FoundInArray = 0;
-            for (auto e : Tokens) {
-                if (FoundToken == e) {
-                    FoundInArray = 1;
+        if (output.size() > 1) {
+            Token token;
+            token.token = output[0];
+            output.erase(output.begin());
+            token.TokenContent = output;
+            token.NumArg = output.size();
+            
+            for (auto i : output) {
+                if (i == "$VAR_STRING") {
+                    token.VartypeInArg.push_back(VAR_STRING);
+                }
+                else if (i == "$VAR_INT") {
+                    token.VartypeInArg.push_back(VAR_INT);
+                }
+                else {
+                    dis.out(D_ERROR, "Arg type with name --> " + i + " can not be found in the list of args!");
+                    usleep(1000);
+                    exit(1);
                 }
             }
 
-            if (!FoundInArray) {
-                dis.out(D_ERROR, "Token with name --> " + FoundToken + " was not found in the list of tokens!"); // token not found ERROR
-                break;
-            }
-           
 
+            Tokens.push_back(token);
+        }
+        else if (output.size() == 1) {
+            Token token;
+            token.token = output[0];
+            token.NumArg = 0;
 
-            dis.out(D_FILE, i);
-
-
+            Tokens.push_back(token);
+        }
+        else {
+            continue;
         }
 
 
     }
+
+
+
+
+   
+
+    auto f = file.FileContent;
+
+    for (auto i : f) {
+       
+        //std::cout << __LINE__ << std::endl;
+        
+        //i = RemoveWhiteSpace(i);
+
+        
+        
+        dis.out(D_INFO, i);
+
+        int commentfound = i.find("#");
+        int eb = i.size();
+        if (commentfound != -1) {
+            for (int e = 0; e < (eb - commentfound); e++ ) {
+                i.erase(i.begin() + commentfound);
+            }
+        }
+
+       // i = RemoveWhiteSpace(i);
+
+        RemoveWhiteSpace(i);
+        
+
+
+        dis.out(D_DEBUG, i);
+
+        if (i.size() > 0) {
+            size_t found = i.find_first_of(" (=");
+            if (found != std::string::npos) {
+                dis.out(D_FILE, "Found out command at a pos : " + std::to_string(found));
+
+                std::string FoundToken = i;
+                std::string args = "";
+                for (int e = found; e < i.size(); e++) {
+                    args.push_back(FoundToken[found]);
+                    FoundToken.erase(FoundToken.begin() + found);
+                }
+
+                RemoveWhiteSpace(args);
+
+                dis.out(D_FILE, "Found token --> \'" + FoundToken + "\' with args --> \'" + args + "\'");
+
+                bool FoundInArray = 0;
+                bool FoundComment = 0;
+                for (auto e : Tokens) {
+                    if (FoundToken == e.token) {
+                        FoundInArray = 1;
+                    }
+                }
+
+                if (!FoundInArray) {
+                    dis.out(D_ERROR, "Token with name --> \'" + FoundToken + "\' was not found in the list of tokens!\n\tOf command --> " + i); // token not found ERROR
+                    break;
+                }
+            
+
+                if (FoundToken == "out") {
+                    if (args.size() > 0) {
+                        if (args[0] == '(') {
+                            args.erase(args.begin());
+
+                            RemoveWhiteSpace(args);
+
+
+                            if (args[0] == '\"') {
+                                std::string got = "";
+                                args.erase(args.begin());
+
+                                bool nocallflag = 0;
+                                for (auto r : args) {
+                                    if (r == '\"') {
+                                        nocallflag = 1;
+                                        break;
+                                    }
+                                    else {
+                                        got += r;
+                                    }
+                                }
+
+                                if (!nocallflag) {
+                                    dis.out(D_ERROR, "You need \'\"\' to end a string def!");
+                                    break;
+                                }
+
+                                std::cout << got << std::endl;
+
+                            }
+                            else {
+                                dis.out(D_ERROR, "Need '\"' to begin a string def!");
+                                break;
+                            }
+                        }
+                        else {
+                            dis.out(D_ERROR, "Need '(' to begin a function call!");
+                            break;
+                        }
+                    }
+                    
+
+
+                }
+            
+                
+
+
+            }            
+            else {
+                dis.out(D_ERROR, "Token with name --> \'" + i + "\' was not found in the list of tokens!\n\tof command --> \'" + i + "\'"); // token not found ERROR
+                break;
+            }
+        }
+        else {
+            dis.out(D_WARNING, "Null line");
+        }
+
+        //std::cout << __LINE__ << std::endl;
+
+
+    }
  
-
-
 	usleep(1000);
 
     return 0;
