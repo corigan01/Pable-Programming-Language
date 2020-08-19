@@ -17,7 +17,7 @@ void RemoveWhiteSpace(std::string &Content) {
 int main() {
     displayout dis;
 
-    dis.out(D_INFO, "Starting Main");
+    //dis.out(D_INFO, "Starting Main");
 
     FileIO file;
     file.ReadFile("../Pable Source/Program.pable");
@@ -27,6 +27,7 @@ int main() {
 
     std::vector<std::string> VarTypesInToken = {"string", "int"};
     std::vector<Token> Tokens;
+
 
 
     for (auto i : Token_file.FileContent) {
@@ -98,7 +99,6 @@ int main() {
        // i = RemoveWhiteSpace(i);
 
         RemoveWhiteSpace(i);
-        
 
 
         dis.out(D_DEBUG, i);
@@ -133,6 +133,9 @@ int main() {
                 }
             
 
+
+
+                // This needs to be fixed
                 if (FoundToken == "out") {
                     if (args.size() > 0) {
                         if (args[0] == '(') {

@@ -3,4 +3,4 @@ out("no work") # this is a comment
 out ("this works")
 
 
-string  mystr     = "Hello world"vs
+string  mystr     = "Hello world"

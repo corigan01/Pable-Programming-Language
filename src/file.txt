@@ -1,0 +1,11 @@
+51f03740d294257f858cc53cc469203c  autocompile.sh
+c8eb2f6ccfd7a2b6430b22d72e8c333e  Base.h
+94df7f0edca8eb6c3a295119be7b20fa  Compiler
+2c1aca7dfe3329f98264a57793a56fab  displayout.cpp
+3a5d07443c95731ac7f89671035f75cd  displayout.h
+5a4623b8755e5539235b6202cb2b51a0  FileIO.cpp
+b019f85f11e90026e0e5f5c67e9d0a16  FileIO.h
+c623d6289356210e93e93a830dafc412  main.cpp
+94df7f0edca8eb6c3a295119be7b20fa  out
+d41d8cd98f00b204e9800998ecf8427e  tokenizer.cpp
+7dcb8b11db8a3ce1b7d813a70c58df62  tokenizer.h

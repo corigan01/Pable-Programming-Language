@@ -52,6 +52,7 @@ class Var {
 
 
 
+
 // This will hold the info for each token and its commands for running it later
 // NOTE: This does not do the tokenizing, it just holds the tokens
 class Token {
