@@ -4,3 +4,12 @@ out ("this works")
 
 
 string  mystr     = "Hello world"
+
+out(mystr)
+out(mystr)
+
+out ("This is what happens when you do things")         
+
+string myotherstr = "What the hell"
+
+out (myotherstr)

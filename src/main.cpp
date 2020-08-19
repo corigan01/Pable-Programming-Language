@@ -28,6 +28,7 @@ int main() {
     std::vector<std::string> VarTypesInToken = {"string", "int"};
     std::vector<Token> Tokens;
 
+    std::vector<Var> Pable_vars;
 
 
     for (auto i : Token_file.FileContent) {
@@ -70,7 +71,6 @@ int main() {
 
 
     }
-
 
 
 
@@ -133,6 +133,9 @@ int main() {
                 }
             
 
+                for (auto e : Pable_vars) {
+                    dis.out(D_FILE, e.VarContent);
+                }
 
 
                 // This needs to be fixed
@@ -143,6 +146,7 @@ int main() {
 
                             RemoveWhiteSpace(args);
 
+                           
 
                             if (args[0] == '\"') {
                                 std::string got = "";
@@ -168,8 +172,35 @@ int main() {
 
                             }
                             else {
-                                dis.out(D_ERROR, "Need '\"' to begin a string def!");
-                                break;
+                                 int FindEnd = args.find_first_of(")");
+
+                                if (FindEnd == -1) {
+                                    dis.out(D_ERROR, "You need to have end a function call with \')\'");
+                                    usleep(1000);
+                                    exit(1);
+                                }
+
+                                std::string CouldBeVar = "";
+
+                                for (int e = 0; e < FindEnd; e++) {
+                                    CouldBeVar.push_back(args[e]);
+                                }
+
+                                dis.out(D_DEBUG, CouldBeVar);
+
+                                bool flagFound = 0;
+                                for (auto e : Pable_vars) {
+                                    if (CouldBeVar == e.VarName) {
+                                        std::cout << e.VarContent << std::endl;
+                                        flagFound = 1;
+                                        break;
+                                    }
+                                }
+
+                                if (!flagFound) {
+                                    dis.out(D_ERROR, "Need '\"' to begin a string def because var with name \'" + CouldBeVar + "\' could not be found in the list of defined vars!");
+                                    break;
+                                }
                             }
                         }
                         else {
@@ -177,9 +208,67 @@ int main() {
                             break;
                         }
                     }
+                }
+                else if (FoundToken == "string") {
+                    int clipoff = args.find_first_of(" =");
+
+                    std::string VarName = "";
+                    std::string LatArg = args;
+                    for (int e = 0; e < clipoff; e++) {
+                        VarName.push_back(args[e]);
+                        LatArg.erase(LatArg.begin());
+                    }
+
+                    RemoveWhiteSpace(LatArg);
+
+                    if (LatArg[0] == '=') {
+                        LatArg.erase(LatArg.begin());
+                    }
+
+                    RemoveWhiteSpace(LatArg);
+
+                    dis.out(D_INFO, LatArg);
+                    dis.out(D_INFO, VarName);
+
+                    Var TempVar;
+
+                    if (VAR_STRING != TempVar.DetectVarType(LatArg)) {
+                        dis.out(D_ERROR, "A string def needs to have a string as a definer!");
+                        usleep(1000);
+                        exit(1);
+                    }
+
+
+                    if (LatArg[0] == '\"') {
+                        LatArg.erase(LatArg.begin());
+                        int LatArgPosName = LatArg.find_first_of("\"");
+
+                        if (LatArgPosName == -1) {
+                            dis.out(D_ERROR, "Cant find end of string def!");
+                            usleep(1000);
+                            exit(1);
+                        }
+
+
+                        std::string VarContent = "";
+
+                        for (int e = 0; e < LatArgPosName; e++) {
+                            VarContent.push_back(LatArg[e]);
+                        }
+
+                        dis.out(D_INFO, "Found Var with name of \'" + VarName + "\' and content of --> \'" + VarContent + "\'");
+
+                        TempVar.StoreVar(VAR_STRING, VarContent, VarName);
+
+                        Pable_vars.push_back(TempVar);
+                    }
+                    else {
+                        dis.out(D_ERROR, "Unknown char --> " + LatArg[0]);
+                        usleep(1000);
+                        exit(1);
+                    }
+
                     
-
-
                 }
             
                 

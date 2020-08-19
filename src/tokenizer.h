@@ -17,6 +17,7 @@ class Var {
     public:
         VarTypes VarType; 
         std::string VarContent;
+        std::string VarName;
 
         VarTypes DetectVarType(std::string Content) {
             std::string StringChars = "\"\'";
@@ -41,9 +42,12 @@ class Var {
             return VAR_NULL;
         }
 
-        void StoreVar(VarTypes type, std::string Content) {
+        void StoreVar(VarTypes type, std::string Content, std::string Name) {
             VarType = type;
             VarContent = Content;
+            VarName = Name;
+
+            //std::cout << ": " << Content << " --> " << Name << std::endl;
         }
 
         
