@@ -131,12 +131,6 @@ int main() {
                     dis.out(D_ERROR, "Token with name --> \'" + FoundToken + "\' was not found in the list of tokens!\n\tOf command --> " + i); // token not found ERROR
                     break;
                 }
-            
-
-                for (auto e : Pable_vars) {
-                    dis.out(D_FILE, e.VarContent);
-                }
-
 
                 // This needs to be fixed
                 if (FoundToken == "out") {
@@ -146,7 +140,6 @@ int main() {
 
                             RemoveWhiteSpace(args);
 
-                           
 
                             if (args[0] == '\"') {
                                 std::string got = "";

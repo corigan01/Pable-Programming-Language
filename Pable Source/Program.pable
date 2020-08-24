@@ -1,15 +1,26 @@
-   out  (   "Hello  -  world!"   )
-out("no work") # this is a comment
-out ("this works")
+#   out  (   "Hello  -  world!"   )
+#out("no work") # this is a comment
+#out ("this works")
 
 
-string  mystr     = "Hello world"
+#string  mystr     = "Hello world"
 
-out(mystr)
-out(mystr)
+#out(mystr)
+#out(mystr)
 
-out ("This is what happens when you do things")         
+#out ("This is what happens when you do things")         
 
-string myotherstr = "What the hell"
+#string myotherstr = "What the hell"
 
-out (myotherstr)
+#out (myotherstr)
+
+
+# new stuff
+
+string this="strings"
+
+
+handle out (this)
+
+while (1):
+   out ()

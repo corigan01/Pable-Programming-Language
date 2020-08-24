@@ -15,7 +15,7 @@ echo
 echo Compiling...
 echo
 
-g++ -std=c++17 -g -pthread *.cpp -o Compiler # compile
+time g++ -std=c++17 -g -pthread *.cpp -o Compiler # compile
 
 fi
 
@@ -35,7 +35,7 @@ echo
 echo Running...
 echo
 
-./Compiler # run
+time ./Compiler # run
 
 echo
 echo Done!
