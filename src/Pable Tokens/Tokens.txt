@@ -1,3 +1,4 @@
+help
 out $VAR_STRING
 in
 string

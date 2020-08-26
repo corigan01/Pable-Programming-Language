@@ -20,3 +20,6 @@
 int myint = 56
 string mystr = "str stuff"
 
+help
+
+in()
