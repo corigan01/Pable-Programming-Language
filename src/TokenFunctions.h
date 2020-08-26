@@ -37,7 +37,7 @@ StringSplit SplitString(std::string Args, std::string Char) {
 
     }
 
-
+    return {"", ""};
 }
 
 
