@@ -1,3 +1,4 @@
 out $VAR_STRING
 in
 string
+int

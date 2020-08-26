@@ -48,5 +48,8 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeinfo": "cpp"
-    }
+    },
+    "extensions.ignoreRecommendations": true
+    "extensions.ignoreRecommendations": true
+    "extensions.ignoreRecommendations": true
 }

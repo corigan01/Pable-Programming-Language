@@ -17,10 +17,6 @@
 
 # new stuff
 
-string this="strings"
+int myint = 56
+string mystr = "str stuff"
 
-
-handle out (this)
-
-while (1):
-   out ()
