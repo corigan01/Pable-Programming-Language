@@ -66,6 +66,13 @@ void RemoveWhiteSpace(std::string &Content) {
     //return Content;
 }
 
+void RemoveWhiteSpaceBack(std::string &Content) {
+    int firstchar = Content.find_last_not_of(" ");
+    for (int e = Content.size(); e > firstchar + 1; e--) {
+        Content.erase(Content.end() -1);
+    }
+}
+
 
 
 bool IsfoundinVar(std::vector<Var> ScopeVar, std::string Arg) {
@@ -105,7 +112,7 @@ int ExtractIntDef(std::string Args) {
 
     std::string got = "[NULL]";
 
-    int FoundNotof = Args.find_first_not_of("0123456789");
+    int FoundNotof = Args.find_first_not_of("-0123456789");
 
     if (Args[FoundNotof] != '\t') {
         Pable_ERROR("Could not determine prescence of int --> " + Args, WorkingLine);
@@ -160,5 +167,57 @@ bool FoundStringDef(std::string Args) {
     return 0;
 }
 
+
+/*StringSplit FindNumBeforeOperator(std::string Args, std::string Op) {
+    int found_input = i.find("+");
+    int eb = i.size();
+    if (found_input != -1) {
+        StringSplit splite = SplitString(i, "+");
+
+        RemoveWhiteSpaceBack(splite.BeforeChar);
+
+        int found_splice1 = splite.BeforeChar.find_last_not_of("0987654321");
+        std::string FoundSegment1 = "";
+        std::string FoundSegment2 = "";
+
+        if (found_splice1 != std::string::npos) {
+            for (int e = splite.BeforeChar.size(); e > found_splice1 + 1; e--) {
+                FoundSegment1.insert(FoundSegment1.begin(), splite.BeforeChar[e-1]);
+            }
+        }
+        else {
+            FoundSegment1 = splite.BeforeChar;
+        }
+
+        RemoveWhiteSpace(splite.AfterChar);
+        
+        int found_splice2 = splite.AfterChar.size();
+
+        if (splite.AfterChar[0] == '+') {
+            splite.AfterChar.erase(splite.AfterChar.begin());
+
+            RemoveWhiteSpace(splite.AfterChar);
+
+            found_splice2 = splite.AfterChar.find_first_not_of("0987654321");
+            if (found_splice2 != std::string::npos) {
+                for (int e = 0; e < found_splice2; e++) {
+                    FoundSegment2 += splite.AfterChar[e];
+                }
+            }
+            else {
+                found_splice2 = splite.AfterChar.size();
+
+                FoundSegment2 = splite.AfterChar;
+            }
+        }
+        else {
+            Pable_ERROR("Could not find the arithmetic operator during deconstruction part two!");
+    }
+
+    Pable_ERROR("Poorly Handled Compiler Code for Arithmetic operator " + Op);
+
+    return {"", ""};
+
+}*/
 
 #endif

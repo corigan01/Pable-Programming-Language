@@ -54,6 +54,8 @@ Example on basic use -------------
         exit(1);
     }
 
+    
+
 
     
     
@@ -118,8 +120,7 @@ Example on basic use -------------
 
     }
 
-
-
+    
 
 
     auto PableFileContent = file.FileContent;
@@ -142,7 +143,7 @@ Example on basic use -------------
             }
         }
 
-
+//Pabble_in()
         int found_input = i.find("in(");
         eb = i.size();
         if (found_input != -1) {
@@ -163,11 +164,273 @@ Example on basic use -------------
             i.insert(found_input, pableInput);
         }
 
+//Pable_ADD
+        found_input = i.find("+");
+        eb = i.size();
+        if (found_input != -1) {
+            StringSplit splite = SplitString(i, "+");
 
+            RemoveWhiteSpaceBack(splite.BeforeChar);
+
+            int found_splice1 = splite.BeforeChar.find_last_not_of("0987654321");
+            std::string FoundSegment1 = "";
+            std::string FoundSegment2 = "";
+
+            if (found_splice1 != std::string::npos) {
+                for (int e = splite.BeforeChar.size(); e > found_splice1 + 1; e--) {
+                    FoundSegment1.insert(FoundSegment1.begin(), splite.BeforeChar[e-1]);
+                }
+            }
+            else {
+                FoundSegment1 = splite.BeforeChar;
+            }
+
+            RemoveWhiteSpace(splite.AfterChar);
+            
+            int found_splice2 = splite.AfterChar.size();
+
+            if (splite.AfterChar[0] == '+') {
+                splite.AfterChar.erase(splite.AfterChar.begin());
+
+                RemoveWhiteSpace(splite.AfterChar);
+
+                found_splice2 = splite.AfterChar.find_first_not_of("0987654321");
+                if (found_splice2 != std::string::npos) {
+                    for (int e = 0; e < found_splice2; e++) {
+                        FoundSegment2 += splite.AfterChar[e];
+                    }
+                }
+                else {
+                    found_splice2 = splite.AfterChar.size();
+
+                    FoundSegment2 = splite.AfterChar;
+                }
+            }
+            else {
+                Pable_ERROR("Could not find the arithmetic operator during deconstruction part two!");
+            }
+
+
+            int FinalAddNumberOut = 0;
+
+            try
+            {
+                FinalAddNumberOut = std::stoi(FoundSegment1) + std::stoi(FoundSegment2);
+            }
+            catch(const std::exception& e)
+            {
+                Pable_ERROR("Could not convert \'+\' to an int!");
+            }
+            
+            int Accum = 0;
+            for (int e = found_splice1 + 1; e < eb - (splite.AfterChar.size() - found_splice2); e++) {
+                i.erase(i.begin() + e - Accum);
+                Accum++;
+            }
+
+            i.insert( (eb - (splite.AfterChar.size() - found_splice2)) - Accum, std::to_string(FinalAddNumberOut));
+        }
+//Pable_SUBTRACT
+        found_input = i.find("-");
+        eb = i.size();
+        if (found_input != -1) {
+            StringSplit splite = SplitString(i, "-");
+
+            RemoveWhiteSpaceBack(splite.BeforeChar);
+
+            int found_splice1 = splite.BeforeChar.find_last_not_of("0987654321");
+            std::string FoundSegment1 = "";
+            std::string FoundSegment2 = "";
+
+            if (found_splice1 != std::string::npos) {
+                for (int e = splite.BeforeChar.size(); e > found_splice1 + 1; e--) {
+                    FoundSegment1.insert(FoundSegment1.begin(), splite.BeforeChar[e-1]);
+                }
+            }
+            else {
+                FoundSegment1 = splite.BeforeChar;
+            }
+
+            RemoveWhiteSpace(splite.AfterChar);
+            
+            int found_splice2 = splite.AfterChar.size();
+
+            if (splite.AfterChar[0] == '-') {
+                splite.AfterChar.erase(splite.AfterChar.begin());
+
+                RemoveWhiteSpace(splite.AfterChar);
+
+                found_splice2 = splite.AfterChar.find_first_not_of("0987654321");
+                if (found_splice2 != std::string::npos) {
+                    for (int e = 0; e < found_splice2; e++) {
+                        FoundSegment2 += splite.AfterChar[e];
+                    }
+                }
+                else {
+                    found_splice2 = splite.AfterChar.size();
+
+                    FoundSegment2 = splite.AfterChar;
+                }
+            }
+            else {
+                Pable_ERROR("Could not find the arithmetic operator during deconstruction part two!");
+            }
+
+
+            int FinalAddNumberOut = 0;
+
+            try
+            {
+                FinalAddNumberOut = std::stoi(FoundSegment1) - std::stoi(FoundSegment2);
+            }
+            catch(const std::exception& e)
+            {
+                Pable_ERROR("Could not convert \'-\' to an int!");
+            }
+            
+            int Accum = 0;
+            for (int e = found_splice1 + 1; e < eb - (splite.AfterChar.size() - found_splice2); e++) {
+                i.erase(i.begin() + e - Accum);
+                Accum++;
+            }
+
+            i.insert( (eb - (splite.AfterChar.size() - found_splice2)) - Accum, std::to_string(FinalAddNumberOut));
+        }
+//Pable_MULTIPLY
+        found_input = i.find("*");
+        eb = i.size();
+        if (found_input != -1) {
+            StringSplit splite = SplitString(i, "*");
+
+            RemoveWhiteSpaceBack(splite.BeforeChar);
+
+            int found_splice1 = splite.BeforeChar.find_last_not_of("0987654321");
+            std::string FoundSegment1 = "";
+            std::string FoundSegment2 = "";
+
+            if (found_splice1 != std::string::npos) {
+                for (int e = splite.BeforeChar.size(); e > found_splice1 + 1; e--) {
+                    FoundSegment1.insert(FoundSegment1.begin(), splite.BeforeChar[e-1]);
+                }
+            }
+            else {
+                FoundSegment1 = splite.BeforeChar;
+            }
+
+            RemoveWhiteSpace(splite.AfterChar);
+            
+            int found_splice2 = splite.AfterChar.size();
+
+            if (splite.AfterChar[0] == '*') {
+                splite.AfterChar.erase(splite.AfterChar.begin());
+
+                RemoveWhiteSpace(splite.AfterChar);
+
+                found_splice2 = splite.AfterChar.find_first_not_of("0987654321");
+                if (found_splice2 != std::string::npos) {
+                    for (int e = 0; e < found_splice2; e++) {
+                        FoundSegment2 += splite.AfterChar[e];
+                    }
+                }
+                else {
+                    found_splice2 = splite.AfterChar.size();
+
+                    FoundSegment2 = splite.AfterChar;
+                }
+            }
+            else {
+                Pable_ERROR("Could not find the arithmetic operator during deconstruction part two!");
+            }
+
+
+            int FinalAddNumberOut = 0;
+
+            try
+            {
+                FinalAddNumberOut = std::stoi(FoundSegment1) * std::stoi(FoundSegment2);
+            }
+            catch(const std::exception& e)
+            {
+                Pable_ERROR("Could not convert \'*\' to an int!");
+            }
+            
+            int Accum = 0;
+            for (int e = found_splice1 + 1; e < eb - (splite.AfterChar.size() - found_splice2); e++) {
+                i.erase(i.begin() + e - Accum);
+                Accum++;
+            }
+
+            i.insert( (eb - (splite.AfterChar.size() - found_splice2)) - Accum, std::to_string(FinalAddNumberOut));
+        }
+//Pable_DIVIDE
+        found_input = i.find("/");
+        eb = i.size();
+        if (found_input != -1) {
+            StringSplit splite = SplitString(i, "/");
+
+            RemoveWhiteSpaceBack(splite.BeforeChar);
+
+            int found_splice1 = splite.BeforeChar.find_last_not_of("0987654321");
+            std::string FoundSegment1 = "";
+            std::string FoundSegment2 = "";
+
+            if (found_splice1 != std::string::npos) {
+                for (int e = splite.BeforeChar.size(); e > found_splice1 + 1; e--) {
+                    FoundSegment1.insert(FoundSegment1.begin(), splite.BeforeChar[e-1]);
+                }
+            }
+            else {
+                FoundSegment1 = splite.BeforeChar;
+            }
+
+            RemoveWhiteSpace(splite.AfterChar);
+            
+            int found_splice2 = splite.AfterChar.size();
+
+            if (splite.AfterChar[0] == '/') {
+                splite.AfterChar.erase(splite.AfterChar.begin());
+
+                RemoveWhiteSpace(splite.AfterChar);
+
+                found_splice2 = splite.AfterChar.find_first_not_of("0987654321");
+                if (found_splice2 != std::string::npos) {
+                    for (int e = 0; e < found_splice2; e++) {
+                        FoundSegment2 += splite.AfterChar[e];
+                    }
+                }
+                else {
+                    found_splice2 = splite.AfterChar.size();
+
+                    FoundSegment2 = splite.AfterChar;
+                }
+            }
+            else {
+                Pable_ERROR("Could not find the arithmetic operator during deconstruction part two!");
+            }
+
+
+            int FinalAddNumberOut = 0;
+
+            try
+            {
+                FinalAddNumberOut = std::stoi(FoundSegment1) / std::stoi(FoundSegment2);
+            }
+            catch(const std::exception& e)
+            {
+                Pable_ERROR("Could not convert \'/\' to an int!");
+            }
+            
+            int Accum = 0;
+            for (int e = found_splice1 + 1; e < eb - (splite.AfterChar.size() - found_splice2); e++) {
+                i.erase(i.begin() + e - Accum);
+                Accum++;
+            }
+
+            i.insert( (eb - (splite.AfterChar.size() - found_splice2)) - Accum, std::to_string(FinalAddNumberOut));
+        }
 
         RemoveWhiteSpace(i);
-
-        //
+        RemoveWhiteSpaceBack(i);
 
         if (FoundStringDef(i)) {
             dis.out(D_INFO, "Found useless var");
@@ -299,7 +562,7 @@ Example on basic use -------------
                 }
 
                 std::string FirstChar = std::to_string(LatArg[0]);
-                if (FirstChar.find_first_of("0123456789") != std::string::npos) {
+                if (FirstChar.find_first_of("-0123456789") != std::string::npos) {
                     
                     std::string VarContent = std::to_string(ExtractIntDef(LatArg));
 

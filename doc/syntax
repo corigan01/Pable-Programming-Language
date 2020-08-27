@@ -35,18 +35,17 @@ YELLO
 ORANGE
 
 //basics
-void def NAME():
+def void print(string input):
+    out(input)
 
 
 
 
 // start working on
-int
-string
+
 
 out()
 in()
-color_out()
 
 if
 else
