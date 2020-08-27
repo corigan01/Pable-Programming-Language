@@ -16,7 +16,7 @@ md5sum *.cpp *.h > sumfile.txt
     echo
 
     time g++ -std=c++17 -g -pthread *.cpp -o Compiler # compile
-
+    mv Compiler ../
 fi
 
 if [ $? -ne 0 ]
@@ -35,7 +35,9 @@ md5sum *.cpp *.h > checksum/sumfile.txt
     echo Running...
     echo
 
-    time ./Compiler # run
+    cd ..
+
+    time ./Compiler  main.pable # run
 
     echo
     echo Done!

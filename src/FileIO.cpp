@@ -45,7 +45,7 @@ void FileIO::ReadFile(std::string Filename) {
         //dis.out(D_INFO, "Closing File");
     }
     else {
-        //dis.out(D_ERROR, "Can't open file with name --> " + Filename);
+        dis.out(D_ERROR, "Can't open file with name --> \'" + Filename + "\'");
 
     }
 

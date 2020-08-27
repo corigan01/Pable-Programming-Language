@@ -29,8 +29,16 @@ void displayout::out(int enumTypeColor, std::string ToDisplay) {
 
         D_COLOR::__OBJSTRING ColorBack = { ToDisplay, D_COLOR::debugstring[enumTypeColor], ModColor[enumTypeColor]};
 
-        if (ColorBack.Message.size() > 0)
-            std::cout << ColorBack.DebugType << "[" << ColorBack.Prompt << "]: " << ColorBack.Message << D_COLOR::defM << std::endl;
+        if (ColorBack.Message.size() > 0) {
+            if (__DEBUG_ON)
+                std::cout << ColorBack.DebugType << "[" << ColorBack.Prompt << "]: " << ColorBack.Message << D_COLOR::defM << std::endl;
+            else {
+                if (enumTypeColor == D_ERROR) {
+                    std::cout << ColorBack.DebugType << "[" << ColorBack.Prompt << "]: " << ColorBack.Message << D_COLOR::defM << std::endl;
+                }
+            }
+        }
+    
     }
     catch(const std::exception& e)
     {

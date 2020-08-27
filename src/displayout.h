@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef DISPLAYOUT
 #define DISPLAYOUT
 // ---------------- CODE ---------------- \\
@@ -101,6 +103,9 @@ public:
 
     displayout();
     ~displayout();
+
+    bool __DEBUG_ON = false;
+
 
     // Check if we have color enabled
 #if D_DISABLE_COLOR == 0

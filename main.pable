@@ -1,0 +1,11 @@
+
+
+int myint = 56
+string mystr = "str stuff"
+
+help
+
+
+out
+
+out("We are doing the best that we can")

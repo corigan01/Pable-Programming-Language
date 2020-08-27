@@ -1,19 +1,71 @@
-#include "displayout.h"
-#include "Base.h"
-#include "TokenFunctions.h"
+
+#include "TokenHandler.h"
 
 
 
+int main(int argc, char** argv) {
 
-int main() {
+    std::string WorkingFileName = "";
 
-    //dis.out(D_INFO, "Starting Main");
+    for (int i = 0; i < argc; i ++) {
+        std::string InputArgs = std::string(argv[i]);
+        dis.out(D_INFO, InputArgs);
+
+        if (InputArgs == "--DEBUG_INFO") {
+            dis.__DEBUG_ON = true;
+        }
+
+        else if (InputArgs == "--help") {
+            std::cout << R"(
+----------------------------------------------------------------------------------------------
+
+--help          :   Brings up the Help menu for the compiler
+--DEBUG_INFO    :   Gives all parsing and compile operations going on inside of the compiler
+"Filename"      :   Gives a file for the compiler to compile
+
+----------------------------------------------------------------------------------------------
+
+Example on basic use -------------
+
+./Compiler "main.pable"
+
+            )" << std::endl;
+        }
+
+
+        else if (InputArgs[0] != '-' && InputArgs.find("./") == std::string::npos) {
+            WorkingFileName = InputArgs;
+        }
+
+        else {
+            std::cout << "Input " << InputArgs << " is not a vailid input" << std::endl;
+        }
+        
+
+
+    }
+
+    if (WorkingFileName == "") {
+        std::cout << "You must enter a file name to compile!" << std::endl;
+        exit(1);
+    }
+
+
+    
+    
 
     FileIO file;
-    file.ReadFile("../Pable Source/Program.pable");
+    file.ReadFile(WorkingFileName);
     
     FileIO Token_file;
-    Token_file.ReadFile("Pable Tokens/Tokens.txt");
+    
+    Token_file.FileContent = {
+        "help",
+        "out $VAR_STRING",
+        "in",
+        "string",
+        "int",
+        "bool"};
 
     std::vector<std::string> VarTypesInToken = {"string", "int"};
     std::vector<Token> Tokens;
@@ -64,12 +116,12 @@ int main() {
 
 
 
-   
+
 
     auto PableFileContent = file.FileContent;
 
     for (auto i : PableFileContent) {
-       WorkingLine ++;
+    WorkingLine ++;
         //std::cout << __LINE__ << std::endl;
         
         //i = RemoveWhiteSpace(i);
@@ -87,7 +139,7 @@ int main() {
         }
 
 
-        int found_input = i.find("in()");
+        int found_input = i.find("in(");
         eb = i.size();
         if (found_input != -1) {
             std::string pableInput;
@@ -111,10 +163,11 @@ int main() {
 
         RemoveWhiteSpace(i);
 
-        if (i[0] == '\"') {
-            dis.out(D_INFO, "Found useless var");
+        //
 
-            continue;
+        if (FoundStringDef(i)) {
+            dis.out(D_INFO, "Found useless var");
+            continue; 
         }
 
 
@@ -148,8 +201,7 @@ int main() {
             }
 
             if (!FoundInArray) {
-                dis.out(D_ERROR, "Token with name --> \'" + FoundToken + "\' was not found in the list of tokens!\n\tOf command --> " + i); // token not found ERROR
-                break;
+                Pable_ERROR( "Token with name --> \'" + FoundToken + "\' was not found in the list of tokens!\n\tOf command --> " + i);
             }
 
             // This needs to be fixed
@@ -169,55 +221,43 @@ int main() {
                         else {
                                 
                             if (!IsfoundinVar(Pable_vars, args)) {
-                                dis.out(D_ERROR, "Need '\"' to begin a string def because var with name could not be found in the list of defined vars!");
-                                break;
+                                Pable_ERROR("Need '\"' to begin a string def because var with name could not be found in the list of defined vars!");
                             }
                         }
                     }
                     else {
-                        dis.out(D_ERROR, "Need '(' to begin a function call!");
-                        break;
+                        Pable_ERROR("Need '(' to begin a function call!");
                     }
                 }
             }
             else if (FoundToken == "string") {
-                int clipoff = args.find_first_of(" =");
+                StringSplit splite = SplitString(args, " (");
 
-                std::string VarName = "";
-                std::string LatArg = args;
-                for (int e = 0; e < clipoff; e++) {
-                    VarName.push_back(args[e]);
-                    LatArg.erase(LatArg.begin());
-                }
+                std::string VarName = splite.BeforeChar;
+                std::string LatArg = splite.AfterChar;
+                
 
                 RemoveWhiteSpace(LatArg);
 
-                if (!FoundStringDef(LatArg)) {
+                if (CheckIfEqual(LatArg)) {
                     LatArg.erase(LatArg.begin());
                 }
                 else {
-                    dis.out(D_ERROR, "You need to have a = to define a var");
-                    break;
+                    Pable_ERROR("You need to have a = to define a var");
                 }
 
                 RemoveWhiteSpace(LatArg);
-
-                dis.out(D_INFO, LatArg);
-                dis.out(D_INFO, VarName);
 
                 Var TempVar;
 
                 if (VAR_STRING != DetectVarType(LatArg)) {
-                    dis.out(D_ERROR, "A string def needs to have a string as a definer!");
-                    usleep(1000);
-                    exit(1);
+                    Pable_ERROR("A string def needs to have a string as a definer!");
                 }
 
 
-                if (LatArg[0] == '\"') {
+                if (FoundStringDef(LatArg)) {
                     
                     std::string VarContent = ExtractStringDef(LatArg);
-
                 
                     dis.out(D_INFO, "Found Var with name of \'" + VarName + "\' and content of --> \'" + VarContent + "\'");
 
@@ -226,44 +266,32 @@ int main() {
                     Pable_vars.push_back(TempVar);
                 }
                 else {
-                    dis.out(D_ERROR, "Unknown char --> " + LatArg[0]);
-                    usleep(1000);
-                    exit(1);
+                    Pable_ERROR("Unknown char --> " + LatArg[0]);
                 }
 
 
             }
             else if (FoundToken == "int") {
-                int clipoff = args.find_first_of(" =");
+                StringSplit splite = SplitString(args, " (");
 
-                std::string VarName = "";
-                std::string LatArg = args;
-                for (int e = 0; e < clipoff; e++) {
-                    VarName.push_back(args[e]);
-                    LatArg.erase(LatArg.begin());
-                }
+                std::string VarName = splite.BeforeChar;
+                std::string LatArg = splite.AfterChar;
 
                 RemoveWhiteSpace(LatArg);
 
-                if (!FoundStringDef(LatArg)) {
+                if (CheckIfEqual(LatArg)) {
                     LatArg.erase(LatArg.begin());
                 }
                 else {
-                    dis.out(D_ERROR, "You need to have a = to define a var");
-                    break;
+                    Pable_ERROR("You need to have a = to define a var");
                 }
 
                 RemoveWhiteSpace(LatArg);
-
-                dis.out(D_INFO, LatArg);
-                dis.out(D_INFO, VarName);
 
                 Var TempVar;
 
                 if (VAR_INT != DetectVarType(LatArg)) {
-                    dis.out(D_ERROR, "A int def needs to have a int as a definer!");
-                    usleep(1000);
-                    exit(1);
+                    Pable_ERROR("A int def needs to have a int as a definer!");
                 }
 
                 std::string FirstChar = std::to_string(LatArg[0]);
@@ -279,27 +307,25 @@ int main() {
                     Pable_vars.push_back(TempVar);
                 }
                 else {
-                    dis.out(D_ERROR, "Unknown char --> " + LatArg[0]);
-                    usleep(1000);
-                    exit(1);
+                    Pable_ERROR("Unknown char --> " + LatArg[0]);
                 }
 
             }
 
             else if (FoundToken == "help") {
                 std::cout << R"(
-                Help with the Pable Programming language
-                -------------------------------
-    
-                Built-ins: in(), out()
-                Variable Types: string, int
-                --------------------------------
-                
-                Getting started program:
-                --------------------------------
-                string MyStr = in() # this will set the string \'MyStr\' to whatever you input
-                out(MyStr) # this will output the content of \'MyStr\'
-                --------------------------------
+Help with the Pable Programming language
+-------------------------------
+
+Built-ins: in(), out()
+Variable Types: string, int
+--------------------------------
+
+Getting started program:
+--------------------------------
+string MyStr = in() # this will set the string \'MyStr\' to whatever you input
+out(MyStr) # this will output the content of \'MyStr\'
+--------------------------------
 
                 )" << std::endl;
 
@@ -309,8 +335,7 @@ int main() {
 
             
             else {
-                dis.out(D_ERROR, "Command not supported!");
-                continue;
+                Pable_ERROR("Command not supported yet, we are working on it!");
             }
         
             
@@ -328,7 +353,8 @@ int main() {
 
     }
  
-	usleep(1000);
+    
+
 
     return 0;
 }

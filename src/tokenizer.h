@@ -7,6 +7,7 @@
 enum VarTypes {
     VAR_STRING = 0,
     VAR_INT,
+    VAR_BOOL,
     VAR_NULL,
 };
 

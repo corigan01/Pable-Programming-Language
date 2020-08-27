@@ -19,8 +19,8 @@ struct StringSplit
 };
 
 
-void Pable_ERROR(std::string Error, int LineERR, bool breakstop = true) {
-    dis.out(D_ERROR, "Line " + std::to_string(LineERR) + ": " + Error );
+void Pable_ERROR(std::string Error, bool breakstop = true) {
+    dis.out(D_ERROR, "Line " + std::to_string(WorkingLine) + ": " + Error );
 
     if (breakstop) {
         usleep(1000000);
@@ -33,11 +33,27 @@ StringSplit SplitString(std::string Args, std::string Char) {
     int foundLoc = Args.find_first_of(Char);
 
     if (foundLoc == -1) {
-        Pable_ERROR("Could not find the spliter in SplitString()", WorkingLine, false);
-
+        Pable_ERROR("Could not find the spliter in SplitString()", false);
+        return {"", ""};
     }
 
-    return {"", ""};
+    StringSplit splitedstring;
+
+    splitedstring.AfterChar = Args;
+    for (int e = 0; e < foundLoc; e++) {
+        splitedstring.BeforeChar.push_back(Args[e]);
+        splitedstring.AfterChar.erase(splitedstring.AfterChar.begin());
+    }
+
+
+    return splitedstring;
+}
+
+
+bool CheckIfEqual(std::string Args) {
+   
+    return Args[0] == '=';
+
 }
 
 
@@ -57,9 +73,7 @@ bool IsfoundinVar(std::vector<Var> ScopeVar, std::string Arg) {
     int FindEnd = Arg.find_first_of(")");
 
     if (FindEnd == -1) {
-        dis.out(D_ERROR, "You need to have end a function call with \')\'");
-        usleep(1000);
-        exit(1);
+        Pable_ERROR("You need to have end a function call with \')\'");
     }
 
 
@@ -130,8 +144,7 @@ std::string ExtractStringDef(std::string Args) {
     }
 
     if (!nocallflag) {
-        dis.out(D_ERROR, "You need \'\"\' to end a string def!");
-        exit(1);
+        Pable_ERROR("You need \'\"\' to end a string def!");
     }
 
     return got;
