@@ -37,7 +37,7 @@ md5sum *.cpp *.h > checksum/sumfile.txt
 
     cd ..
 
-    time ./Compiler --DEBUG_INFO main.pable # run
+    time ./Compiler main.pable # run
 
     echo
     echo Done!

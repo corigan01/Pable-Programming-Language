@@ -23,7 +23,7 @@ void Pable_ERROR(std::string Error, bool breakstop = true) {
     dis.out(D_ERROR, "Line " + std::to_string(WorkingLine) + ": " + Error );
 
     if (breakstop) {
-        usleep(1000000);
+        //usleep(1000000);
         exit(1);   
     }
 }

@@ -16,4 +16,6 @@ int e = 7 * 3
 int d = 4/2
 
 
-int KIll_ME_please = -9
+int KIll_ME_please = 9
+
+out("546")

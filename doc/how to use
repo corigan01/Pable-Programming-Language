@@ -1,1 +1,2 @@
 how to use
+REMINDER: we dont support ints directly in the out() function, but we do support passed vars

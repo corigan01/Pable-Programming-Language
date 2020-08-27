@@ -164,6 +164,10 @@ Example on basic use -------------
             i.insert(found_input, pableInput);
         }
 
+/* 
+------------------------------------------------ OPERATORS SEGMENT ------------------------------------------------
+*/
+
 //Pable_ADD
         found_input = i.find("+");
         eb = i.size();
@@ -429,6 +433,12 @@ Example on basic use -------------
             i.insert( (eb - (splite.AfterChar.size() - found_splice2)) - Accum, std::to_string(FinalAddNumberOut));
         }
 
+
+
+
+
+
+
         RemoveWhiteSpace(i);
         RemoveWhiteSpaceBack(i);
 
@@ -439,7 +449,9 @@ Example on basic use -------------
 
 
         
-
+/*
+------------------------------------------------ Help Function ------------------------------------------------
+*/
         if (i.size() > 0) {
             size_t found = i.find_first_of(" (=");
 
@@ -471,14 +483,13 @@ Example on basic use -------------
                 Pable_ERROR( "Token with name --> \'" + FoundToken + "\' was not found in the list of tokens!\n\tOf command --> " + i);
             }
 
-            // This needs to be fixed
+            // Pabble_out()
             if (FoundToken == "out") {
                 if (args.size() > 0) {
                     if (args[0] == '(') {
                         args.erase(args.begin());
 
                         RemoveWhiteSpace(args);
-
 
                         if (FoundStringDef(args)) {
 
@@ -497,6 +508,7 @@ Example on basic use -------------
                     }
                 }
             }
+            //Pabble_string
             else if (FoundToken == "string") {
                 StringSplit splite = SplitString(args, " (");
 
@@ -538,6 +550,7 @@ Example on basic use -------------
 
 
             }
+            //Pabble_int
             else if (FoundToken == "int") {
                 StringSplit splite = SplitString(args, " (");
 
