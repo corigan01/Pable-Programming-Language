@@ -37,6 +37,10 @@ Example on basic use -------------
             WorkingFileName = InputArgs;
         }
 
+        else if (InputArgs.find("./") != std::string::npos) {
+            ;
+        }
+
         else {
             std::cout << "Input " << InputArgs << " is not a vailid input" << std::endl;
         }
@@ -313,7 +317,7 @@ Example on basic use -------------
             }
 
             else if (FoundToken == "help") {
-                std::cout << R"(
+                std::cout << D_COLOR::greenM << R"(
 Help with the Pable Programming language
 -------------------------------
 
@@ -325,9 +329,7 @@ Getting started program:
 --------------------------------
 string MyStr = in() # this will set the string \'MyStr\' to whatever you input
 out(MyStr) # this will output the content of \'MyStr\'
---------------------------------
-
-                )" << std::endl;
+--------------------------------)" << D_COLOR::defM << std::endl;
 
 
             }
