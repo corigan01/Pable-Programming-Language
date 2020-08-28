@@ -1,21 +1,4 @@
+int i = 3 -- 5
+out(i)
 
 
-int myint = 56
-string mystr = "str stuff"
-
-help
-
-
-out
-
-out("We are doing the best that we can")
-
-int i = 312 + 7123
-int s = 342 - 400
-int e = 7 * 3
-int d = 4/2
-
-
-int KIll_ME_please = 9
-
-out("546")

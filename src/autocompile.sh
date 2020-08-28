@@ -15,7 +15,7 @@ md5sum *.cpp *.h > sumfile.txt
     echo Compiling...
     echo
 
-    time g++ -std=c++17 -g -pthread *.cpp -o Compiler # compile
+    time g++ -std=c++17 -g -pthread -fpermissive *.cpp -o Compiler # compile
     mv Compiler ../
 fi
 
