@@ -227,7 +227,7 @@ Example on basic use
             
             splite.AfterChar.erase(splite.AfterChar.begin());
 
-            std::cout << "why!!!!" << std::endl;
+
             StringSplit FinalSpliteDiff = SplitString(splite.AfterChar, "*/+-");
 
             if (FinalSpliteDiff.BeforeChar.size() == 0) {
@@ -241,7 +241,7 @@ Example on basic use
 
             found_S1_back = FinalSpliteDiff.BeforeChar.find_last_of("= (");
             FoundPos1 = found_input;
-            std::cout << FinalSpliteDiff.BeforeChar << std::endl;
+ 
             if (found_S1_back != -1)  {
                 for (int e = 0; e < found_S1_back + 1; e++) {
                     InsertSizeB++;
@@ -259,8 +259,6 @@ Example on basic use
 
         RemoveWhiteSpace(FinalS2Pre);
 
-        std::cout << "FinalS2Pre: " << FinalS2Pre << std::endl;
-
         std::string FinalS2Pre_Load = FinalS2Pre;
 
         FinalS2Pre_Load.erase(FinalS2Pre_Load.begin());
@@ -276,7 +274,7 @@ Example on basic use
         if (FirstCharNeg)
             FinalS1.insert(FinalS1.begin(), '-');
 
-        std::cout << "FinalS2Pre: " << FinalS2Pre_Load << std::endl;
+
 
         bool NegFlag = 0;
         if (FinalS2Pre_Load[0] == '-') {
@@ -284,12 +282,10 @@ Example on basic use
             NegFlag =1;
         }
 
-        std::cout << "FinalS2Pre: " << FinalS2Pre_Load << std::endl;
-
         int FoundSecond = FinalS2Pre_Load.find_first_of("+-*/");
 
         std::string AppendAfter = "";
-        std::cout << ">" << FinalS2Pre_Load << std::endl;
+
         if (FoundSecond != -1) {
             for (int e = 0; e < FoundSecond; e ++) {
                 FinalS2 += FinalS2Pre_Load[e];
@@ -304,7 +300,6 @@ Example on basic use
             //InsertSizeE = FinalS2.size();
         }
         
-        std::cout << "Append After " << AppendAfter << std::endl;
 
         if (NegFlag)
             FinalS2.insert(FinalS2.begin(), '-');
@@ -371,7 +366,6 @@ Example on basic use
         for (int e = InsertSizeB; e < Accum; e++) {
             i.erase(i.begin() + InsertSizeB );
             //Accum++;
-            std::cout << i << std::endl;
         }
 
 
