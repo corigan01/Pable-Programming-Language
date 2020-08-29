@@ -1,21 +1,20 @@
+int AddBoi = 8
+int SubBoi = 2
 
 
-int myint = 56
-string mystr = "str stuff"
 
-help
+int i = AddBoi - SubBoi + SubBoi
 
+string i = " "
 
-out
-
-out("We are doing the best that we can")
-
-int i = 312 + 7123
-int s = 342 - 400
-int e = 7 * 3
-int d = 4/2
+out(i)
 
 
-int KIll_ME_please = 9
 
-out("546")
+#color_out("hello world", BLUE)
+#if( "hi" == "hello")
+
+#int i = +{9-6}
+#find last charachter of first segment(3)
+#Find charachter of last charachter in the total string ( -6)
+#compare the two charachters and if they match then delete all, if not then delete from 3

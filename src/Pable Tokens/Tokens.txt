@@ -2,6 +2,8 @@ help
 
 out $VAR_STRING
 in
+color_out
+if
 
 string
 int

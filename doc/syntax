@@ -16,12 +16,34 @@ out()
 color_out()
 in()
 
+// Statements
+if (0 eq 9) then:
+    out("Yes")
+    
+    
+
+else(do this)
+while(true/false)
+
+bool test_if("my will to live" eq true):
+
+    if(true) then:
+    out("kill me please")
+    endif
+
+    if(false) then:
+    out("alr we good we good")
+    endif
+
+    return res
+
+endif    
 
 // logic
 or
 and
 not
-==
+== or eq
 !
 ||
 &&
