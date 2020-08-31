@@ -1,20 +1,7 @@
-int AddBoi = 8
-int SubBoi = 2
+string i = in()
+
+if (i = "pain")
+out ("who guessed it")
+end
 
 
-
-int i = AddBoi - SubBoi + SubBoi
-
-string i = " "
-
-out(i)
-
-
-
-#color_out("hello world", BLUE)
-#if( "hi" == "hello")
-
-#int i = +{9-6}
-#find last charachter of first segment(3)
-#Find charachter of last charachter in the total string ( -6)
-#compare the two charachters and if they match then delete all, if not then delete from 3

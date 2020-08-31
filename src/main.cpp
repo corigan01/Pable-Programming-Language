@@ -86,12 +86,22 @@ Example on basic use
         "int",
         "bool",
         "color_out",
-        "if"};
+        "if",
+        "end",
+        "while",
+        "break",
+        "readfile"};
 
     std::vector<std::string> VarTypesInToken = {"string", "int"};
     std::vector<Token> Tokens;
 
     std::vector<Var> Pable_vars; // This is a globles
+    std::vector<Scope> pable_scope;
+
+    int RestartLine = -1;
+    int RestartLineHold = -1;
+    int EndRestartLine = -1;
+    bool RestartIfHeld = 0;
 
 
     for (auto i : Token_file.FileContent) {
@@ -140,8 +150,22 @@ Example on basic use
 
     auto PableFileContent = file.FileContent;
 
-    for (auto i : PableFileContent) {
-    WorkingLine ++;
+    int lineMove = 0;
+    for (int ParseLineN = 0; ParseLineN < PableFileContent.size(); ParseLineN++) { // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if (RestartLine != -1) {
+        ParseLineN = RestartLine;
+        RestartLine = -1;
+        std::cout << "We restarted line " << ParseLineN << std::endl;
+    }
+
+   
+
+    std::string i = PableFileContent[ParseLineN + lineMove];
+
+    WorkingLine = ParseLineN;
+
+    
         //std::cout << __LINE__ << std::endl;
         
         //i = RemoveWhiteSpace(i);
@@ -396,6 +420,7 @@ Example on basic use
         }
 
 
+        
 
 
         
@@ -429,9 +454,64 @@ Example on basic use
                 }
             }
 
+            RemoveWhiteSpace(FoundToken);
+            RemoveWhiteSpaceBack(FoundToken);
+            bool CC_Con = 0;
+            for (int e = 0; e < Pable_vars.size(); e++) {
+                
+                if (Pable_vars[e].VarName == FoundToken) {
+                    std::string LatArg = args;
+                    
+                    if (CheckIfEqual(LatArg)) {
+                    LatArg.erase(LatArg.begin());
+                    }
+                    else {
+                        Pable_ERROR("You need to have a = to define a var");
+                    }
+
+                    RemoveWhiteSpace(LatArg);
+
+                   
+
+                   
+
+
+                    
+                    std::string VarContent;
+                    dis.out(D_DEBUG, "Var Is equal to " + std::to_string(Pable_vars[e].VarType));
+
+                    if (Pable_vars[e].VarType == VAR_STRING)
+                        VarContent = ExtractStringDef(LatArg);
+                    else if (Pable_vars[e].VarType == VAR_INT) {
+                        VarContent = LatArg;
+                    }
+                    else {
+                        Pable_ERROR("Could not reassign var");
+                    }
+                
+                    dis.out(D_INFO, "Found Var reassign \'" + FoundToken + "\' and content of --> \'" + VarContent + "\'");
+
+                    Pable_vars[e].VarContent = VarContent;
+                    
+                   CC_Con = 1;
+
+                }
+                
+
+
+            }
+
+            if (CC_Con) {
+                continue;
+            }
+            
             if (!FoundInArray) {
+                
+
                 Pable_ERROR( "Token with name --> \'" + FoundToken + "\' was not found in the list of tokens!\n\tOf command --> " + i);
             }
+
+            
 
             // Pabble_out()
             if (FoundToken == "out") {
@@ -459,60 +539,267 @@ Example on basic use
                 }
             }
             //Pable_if():
-            else if(FoundToken == "if"){
+            else if (FoundToken == "if"){
+                dis.out(D_DEBUG, "Found if statement");
                 if (args.size() > 0) {
                     if (args[0] == '(') {
                         args.erase(args.begin());
 
                         RemoveWhiteSpace(args);
+                        
+                        bool output = 0;
+                        
+                        //std::string FoundIf = ExtractStringDef(args);
+                        if(args.find("=") == -1 ){
+                            output = args == "true)";
 
-                        if (FoundStringDef(args)) {
+                            if (!output) {
+                                if (args != "false)") {
+                                    Pable_ERROR("You must use true or false in an if statement!");
+                                }
+                            }
                             
-                            RemoveWhiteSpace(args);
                             
-                            std::string FoundIf = ExtractStringDef(args);
-                            
-                            StringSplit splite = SplitString(args, "==");
+                        }
+                        else {
+                            StringSplit splite = SplitString(args, "=");
                             
                             RemoveWhiteSpace(splite.BeforeChar);
                             RemoveWhiteSpace(splite.AfterChar);
 
-                            std::string FirstClause = ExtractStringDef(args);
-                            std::string SecondClause = splite.AfterChar;
+                            std::string FirstClause = "";
+                            std::string SecondClause = "";
                             
-                            dis.out(D_DEBUG, FirstClause);
-                            dis.out(D_DEBUG, SecondClause);
+                            //dis.out(D_DEBUG, FirstClause); 
+                            //dis.out(D_DEBUG, SecondClause);
                             
                             RemoveWhiteSpace(splite.AfterChar);
                             RemoveWhiteSpaceBack(splite.AfterChar);
 
                             splite.AfterChar.erase(splite.AfterChar.begin());
-                            splite.AfterChar.erase(splite.AfterChar.begin());
+                            
+                            
                             splite.AfterChar.erase(splite.AfterChar.begin() + splite.AfterChar.size() - 1);
                             
                             RemoveWhiteSpace(splite.AfterChar);
                             RemoveWhiteSpaceBack(splite.AfterChar);
                             RemoveWhiteSpace(splite.AfterChar);
+                            RemoveWhiteSpaceBack(splite.BeforeChar);
+
+                            std::string PableVar = "";
+
+                            std::cout << splite.BeforeChar << " KILL " << splite.AfterChar << std::endl;
                             
-                            FirstClause = ExtractStringDef(args);
-                            SecondClause = ExtractStringDef(splite.AfterChar);                       
-                            dis.out(D_DEBUG, FirstClause);
-                            dis.out(D_DEBUG, SecondClause);                      
+                            std::string FirstChar = std::to_string(splite.BeforeChar[0]);
+                            if(CheckIfVar(Pable_vars, splite.BeforeChar)){
+                                splite.BeforeChar += ")";
+                                PableVar = FoundVarContent(Pable_vars, splite.BeforeChar);
+                                FirstClause = PableVar;
+                            }
+                            else if (FoundStringDef(splite.BeforeChar)) {
+                                FirstClause = ExtractStringDef(splite.BeforeChar);
+                                dis.out(D_INFO, "Found String Def for BeforeChar");
+                            }
+                            else if (FirstChar.find_first_of("-0123456789") != std::string::npos) {
+                                FirstClause = ExtractIntDef(splite.BeforeChar);
+                                dis.out(D_INFO, "Found Int Def for BeforeChar");
+                            }
+                            else 
 
+                            FirstChar = std::to_string(splite.AfterChar[0]);
 
-                            if (FirstClause == SecondClause){
-                                return true;
+                            if(CheckIfVar(Pable_vars, splite.AfterChar)){
+                                splite.AfterChar += ")";
+                                PableVar = FoundVarContent(Pable_vars, splite.AfterChar);
+                                SecondClause = PableVar;
+                            }
+                            else if (FoundStringDef(splite.AfterChar)) {
+                                SecondClause = ExtractStringDef(splite.AfterChar);
+                                dis.out(D_INFO, "Found String Def for AfterChar");
+                            }
+                            else if (FirstChar.find_first_of("-0123456789") != std::string::npos) {
+                                SecondClause = std::to_string(ExtractIntDef(splite.AfterChar));
+                                dis.out(D_INFO, "Found Int Def for AfterChar");
+                            }
+                            
+                            dis.out(D_INFO, "Check if First and Second is equal > " + FirstClause + " : " + SecondClause);
+                            
+                            output = FirstClause == SecondClause;
+                            
+                        }
+
+                        
+                            int FoundLineOf = ParseLineN;
+                            int FoundEndToif = -1;
+                            for (int e = ParseLineN; e < PableFileContent.size(); e++) {
+                                std::string TempFound = PableFileContent[e];
+
+                                RemoveWhiteSpace(TempFound);
+                                RemoveWhiteSpaceBack(TempFound);
+                                if(TempFound == "end") {
+                                    FoundEndToif = e;
+                                    dis.out(D_FILE, "Found the end to the if statement at pos " + std::to_string(e + 1));
+                                }
+                            }
+                            if (FoundEndToif == -1) {
+                                    Pable_ERROR("Could not find the end to the if statement!");
+                            }
+
+                            if (output){
+                                    dis.out(D_INFO, "Found that the if statement is true! I sure dont!");
+                                    
                             }
                             else
                             {
-                                return false;
+                                dis.out(D_INFO, "Found that the if statement is false! I sure do!");
+                                RestartLine = FoundEndToif;
+                                continue;
+                                
                             }
-                            
-                         }
+                        
                     }
                 }
-            }
+            }  
             //Pable_while()
+             else if (FoundToken == "while"){
+                dis.out(D_DEBUG, "Found while loop");
+                if (args.size() > 0) {
+                    if (args[0] == '(') {
+                        args.erase(args.begin());
+
+                        RemoveWhiteSpace(args);
+                        
+
+                        bool output = 0;
+                        
+                        //std::string FoundIf = ExtractStringDef(args);
+                        if(args.find("=") == -1 ){
+                            output = args == "true)";
+
+                            if (!output) {
+                                if (args != "false)") {
+                                    Pable_ERROR("You must use true or false in a while statement!");
+                                }
+                            }
+                            //while(this == this)   while(true)
+                            
+                        }
+                        else {
+                            StringSplit splite = SplitString(args, "=");
+                            
+                            RemoveWhiteSpace(splite.BeforeChar);
+                            RemoveWhiteSpace(splite.AfterChar);
+
+                            std::string FirstClause = "";
+                            std::string SecondClause = "";
+                            
+                            //dis.out(D_DEBUG, FirstClause); 
+                            //dis.out(D_DEBUG, SecondClause);
+                            
+                            RemoveWhiteSpace(splite.AfterChar);
+                            RemoveWhiteSpaceBack(splite.AfterChar);
+
+                            splite.AfterChar.erase(splite.AfterChar.begin());
+                            
+                            
+                            splite.AfterChar.erase(splite.AfterChar.begin() + splite.AfterChar.size() - 1);
+                            
+                            RemoveWhiteSpace(splite.AfterChar);
+                            RemoveWhiteSpaceBack(splite.AfterChar);
+                            RemoveWhiteSpace(splite.AfterChar);
+                            RemoveWhiteSpaceBack(splite.BeforeChar);
+
+                            std::string PableVar = "";
+                            
+                            if(CheckIfVar(Pable_vars, splite.BeforeChar)){
+                                splite.BeforeChar += ")";
+                                PableVar = FoundVarContent(Pable_vars, splite.BeforeChar);
+                                FirstClause = PableVar;
+                            }
+                            if(CheckIfVar(Pable_vars, splite.AfterChar)){
+                                splite.AfterChar += ")";
+                                PableVar = FoundVarContent(Pable_vars, splite.AfterChar);
+                                SecondClause = PableVar;
+                            }
+                            
+                            if (FoundStringDef(splite.BeforeChar)) {
+                                FirstClause = ExtractStringDef(splite.BeforeChar);
+                                dis.out(D_INFO, "Found String Def for BeforeChar");
+                            }
+
+                            if (FoundStringDef(splite.AfterChar)) {
+                                SecondClause = ExtractStringDef(splite.AfterChar);
+                                dis.out(D_INFO, "Found String Def for AfterChar");
+                            }
+
+                            std::string FirstChar = std::to_string(splite.BeforeChar[0]);
+                            if (FirstChar.find_first_of("-0123456789") != std::string::npos) {
+                                FirstClause = ExtractIntDef(splite.BeforeChar);
+                                dis.out(D_INFO, "Found Int Def for BeforeChar");
+                            }
+
+                            FirstChar = std::to_string(splite.AfterChar[0]);
+                            if (FirstChar.find_first_of("-0123456789") != std::string::npos) {
+                                SecondClause = ExtractIntDef(splite.AfterChar);
+                                dis.out(D_INFO, "Found String Def for AfterChar");
+                            }
+                            dis.out(D_INFO, "Check if First and Second is equal > " + FirstClause + " : " + SecondClause);
+                            
+                            output = FirstClause == SecondClause;
+                            
+                        }
+
+                        
+                            int FoundLineOf = ParseLineN;
+                            int FoundEndToif = -1;
+                            for (int e = ParseLineN; e < PableFileContent.size(); e++) {
+                                std::string TempFound = PableFileContent[e];
+
+                                RemoveWhiteSpace(TempFound);
+                                RemoveWhiteSpaceBack(TempFound);
+                                if(TempFound == "end") {
+                                    FoundEndToif = e;
+                                    dis.out(D_FILE, "Found the end to the while statement at pos " + std::to_string(e + 1));
+                                }
+                            }
+                            if (FoundEndToif == -1) {
+                                    Pable_ERROR("Could not find the end to the while statement!");
+                            }
+
+                            if (output){
+                                    dis.out(D_INFO, "Found that the while statement is true! I sure dont!");
+                                    RestartLineHold = ParseLineN;
+                                    RestartIfHeld = 1;
+                                    EndRestartLine = FoundEndToif;
+                                    dis.out(D_INFO, "FoundLineOf: " + std::to_string(RestartLineHold));
+                                    
+                            }
+                            else
+                            {
+                                dis.out(D_INFO, "Found that the while statement is false! I sure do!");
+                                RestartLine = FoundEndToif;
+                                continue;
+                                
+                            }
+                        
+                    }
+                }
+            }  
+
+            else if (FoundToken == "break") {
+                dis.out(D_WARNING, "Breaking From loop");
+                RestartLine = EndRestartLine;
+                RestartLineHold = -1;
+                RestartIfHeld = 0;
+                EndRestartLine = -1;
+            }
+            //for(int e = somethin | e < somethin | e++):
+
+
+
+     
+
+
             
             //color_out()
             else if (FoundToken == "color_out"){
@@ -571,7 +858,39 @@ Example on basic use
                     
                 }
             }
+
+
+            //end
+            else if (FoundToken == "end") {
+                dis.out(D_INFO, "Found End of the statement!");
+                if (RestartIfHeld) {
+                    RestartLine = RestartLineHold;
+                    RestartIfHeld = 0;
+                }
+            }
             
+            else if (FoundToken == "readfile"){
+                 if (args.size() > 0) {
+                    if (args[0] == '(') {
+                        args.erase(args.begin());
+                        RemoveWhiteSpace(args);
+                        if (FoundStringDef(args)){
+
+                            std::cout << ExtractStringDef(args) << std::endl;
+                            std::string FileName = ExtractStringDef(args);
+                            
+                            FileIO OpenedFile;
+                            OpenedFile.ReadFile(FileName);
+
+                            for (auto e : OpenedFile.FileContent) {
+                                std::cout << e << std::endl;
+                            }
+                           
+                            
+                        }
+                    }    
+                }
+            }
             
             //Pabble_string
             else if (FoundToken == "string") {
@@ -701,7 +1020,7 @@ out(MyStr) # this will output the content of \'MyStr\'
   
      time_taken *= 1e-9; 
   
-    std::cout << std::endl << "Pabble compiled in: " << std::fixed  
+    std::cout << std::endl << "Pable compiled in: " << std::fixed  
          << time_taken << std::setprecision(9); 
     std::cout << " seconds" << std::endl;  
     return 0;
