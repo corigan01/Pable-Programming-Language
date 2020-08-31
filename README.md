@@ -90,8 +90,15 @@ color_out("We finsihed all the beer", BLUE) # output in blue when we are done
 
 end
 ```
+# Speed
+Pable without --DEBUG_INFO on, we made it as fast as we could. It can run about 1,000,000 lines in about 8 seconds while outputing to the console and could do it in about 100ms without outputing to the console.
 
-We also setup a super easy to use file to download and compile our project. Once you run it, it is super fast. 
+With the new class based parser coming soon, we will enjoy even faster code! 
+
+
+# Try it!
+
+**We also setup a super easy to use file to download and compile our project. Once you run it, it is super fast. **
 
 Run it here: https://repl.it/@Hexcode/Pable-Example#main.sh
 
