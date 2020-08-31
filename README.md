@@ -98,7 +98,7 @@ With the new class based parser coming soon, we will enjoy even faster code!
 
 # Try it!
 
-**We also setup a super easy to use file to download and compile our project. Once you run it, it is super fast. **
+** We also setup a super easy to use file to download and compile our project. Once you run it, it is super fast. **
 
 Run it here: https://repl.it/@Hexcode/Pable-Example#main.sh
 
