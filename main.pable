@@ -1,7 +1,17 @@
-string i = in()
+int i = 99
 
-if (i = "pain")
-out ("who guessed it")
-end
+while (i > 0)
+
+out (i)
+color_out("bottles of beer on the wall", GREEN)
+
+readfile("ascii_art.txt")
+
+i = i - 1
+
+if (i = 0)
+color_out("", BLUE)
+
+end 
 
 

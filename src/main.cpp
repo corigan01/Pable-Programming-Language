@@ -156,7 +156,8 @@ Example on basic use
     if (RestartLine != -1) {
         ParseLineN = RestartLine;
         RestartLine = -1;
-        std::cout << "We restarted line " << ParseLineN << std::endl;
+        
+        dis.out(D_INFO, "We restarted code at line --> " + std::to_string(ParseLineN));
     }
 
    
@@ -550,7 +551,7 @@ Example on basic use
                         bool output = 0;
                         
                         //std::string FoundIf = ExtractStringDef(args);
-                        if(args.find("=") == -1 ){
+                        if(args.find_first_of(">=<!") == -1 ){
                             output = args == "true)";
 
                             if (!output) {
@@ -562,7 +563,9 @@ Example on basic use
                             
                         }
                         else {
-                            StringSplit splite = SplitString(args, "=");
+                            StringSplit splite = SplitString(args, "=><!");
+
+                            
                             
                             RemoveWhiteSpace(splite.BeforeChar);
                             RemoveWhiteSpace(splite.AfterChar);
@@ -576,6 +579,9 @@ Example on basic use
                             RemoveWhiteSpace(splite.AfterChar);
                             RemoveWhiteSpaceBack(splite.AfterChar);
 
+                            char CharUse = splite.AfterChar[0];
+                            bool isInt = 0;
+
                             splite.AfterChar.erase(splite.AfterChar.begin());
                             
                             
@@ -588,13 +594,13 @@ Example on basic use
 
                             std::string PableVar = "";
 
-                            std::cout << splite.BeforeChar << " KILL " << splite.AfterChar << std::endl;
                             
                             std::string FirstChar = std::to_string(splite.BeforeChar[0]);
                             if(CheckIfVar(Pable_vars, splite.BeforeChar)){
                                 splite.BeforeChar += ")";
                                 PableVar = FoundVarContent(Pable_vars, splite.BeforeChar);
                                 FirstClause = PableVar;
+                                
                             }
                             else if (FoundStringDef(splite.BeforeChar)) {
                                 FirstClause = ExtractStringDef(splite.BeforeChar);
@@ -624,8 +630,38 @@ Example on basic use
                             
                             dis.out(D_INFO, "Check if First and Second is equal > " + FirstClause + " : " + SecondClause);
                             
-                            output = FirstClause == SecondClause;
+                            switch (CharUse)
+                            {
+                            case '=':
+                                output = FirstClause == SecondClause;
+                                break;
+                            case '>':
+                                if (isInt)
+                                    output = FirstClause > SecondClause;
+                                else
+                                    Pable_ERROR("Can only do \'>\' on a number not a string!");
+                                break;
+                            case '<':
+                                if (isInt)
+                                    output = FirstClause < SecondClause;
+                                else
+                                    Pable_ERROR("Can only do \'<\' on a number not a string!");
+                                break;
+                            case '!':
+                                if (isInt)
+                                    output = FirstClause != SecondClause;
+                                else
+                                    Pable_ERROR("Can only do \'!\' on a number not a string!");
+                                break;
+                            default:
+                                Pable_ERROR("Operation not supported!");
+                                break;
+                            }
+
                             
+                            
+
+
                         }
 
                         
@@ -673,7 +709,7 @@ Example on basic use
                         bool output = 0;
                         
                         //std::string FoundIf = ExtractStringDef(args);
-                        if(args.find("=") == -1 ){
+                        if(args.find_first_of(">=<!") == -1 ){
                             output = args == "true)";
 
                             if (!output) {
@@ -685,7 +721,7 @@ Example on basic use
                             
                         }
                         else {
-                            StringSplit splite = SplitString(args, "=");
+                            StringSplit splite = SplitString(args, "=<>!");
                             
                             RemoveWhiteSpace(splite.BeforeChar);
                             RemoveWhiteSpace(splite.AfterChar);
@@ -699,6 +735,9 @@ Example on basic use
                             RemoveWhiteSpace(splite.AfterChar);
                             RemoveWhiteSpaceBack(splite.AfterChar);
 
+                            char CharUse = splite.AfterChar[0];
+                            bool isInt = 0;
+
                             splite.AfterChar.erase(splite.AfterChar.begin());
                             
                             
@@ -710,42 +749,72 @@ Example on basic use
                             RemoveWhiteSpaceBack(splite.BeforeChar);
 
                             std::string PableVar = "";
+
                             
+                            std::string FirstChar = std::to_string(splite.BeforeChar[0]);
                             if(CheckIfVar(Pable_vars, splite.BeforeChar)){
                                 splite.BeforeChar += ")";
                                 PableVar = FoundVarContent(Pable_vars, splite.BeforeChar);
                                 FirstClause = PableVar;
+                                
                             }
+                            else if (FoundStringDef(splite.BeforeChar)) {
+                                FirstClause = ExtractStringDef(splite.BeforeChar);
+                                dis.out(D_INFO, "Found String Def for BeforeChar");
+                            }
+                            else if (FirstChar.find_first_of("-0123456789") != std::string::npos) {
+                                FirstClause = ExtractIntDef(splite.BeforeChar);
+                                dis.out(D_INFO, "Found Int Def for BeforeChar");
+                            }
+                            else 
+
+                            FirstChar = std::to_string(splite.AfterChar[0]);
+
                             if(CheckIfVar(Pable_vars, splite.AfterChar)){
                                 splite.AfterChar += ")";
                                 PableVar = FoundVarContent(Pable_vars, splite.AfterChar);
                                 SecondClause = PableVar;
+                                isInt = 1;
                             }
-                            
-                            if (FoundStringDef(splite.BeforeChar)) {
-                                FirstClause = ExtractStringDef(splite.BeforeChar);
-                                dis.out(D_INFO, "Found String Def for BeforeChar");
-                            }
-
-                            if (FoundStringDef(splite.AfterChar)) {
+                            else if (FoundStringDef(splite.AfterChar)) {
                                 SecondClause = ExtractStringDef(splite.AfterChar);
                                 dis.out(D_INFO, "Found String Def for AfterChar");
                             }
-
-                            std::string FirstChar = std::to_string(splite.BeforeChar[0]);
-                            if (FirstChar.find_first_of("-0123456789") != std::string::npos) {
-                                FirstClause = ExtractIntDef(splite.BeforeChar);
-                                dis.out(D_INFO, "Found Int Def for BeforeChar");
+                            else if (FirstChar.find_first_of("-0123456789") != std::string::npos) {
+                                SecondClause = std::to_string(ExtractIntDef(splite.AfterChar));
+                                dis.out(D_INFO, "Found Int Def for AfterChar");
+                                isInt = 1;
                             }
-
-                            FirstChar = std::to_string(splite.AfterChar[0]);
-                            if (FirstChar.find_first_of("-0123456789") != std::string::npos) {
-                                SecondClause = ExtractIntDef(splite.AfterChar);
-                                dis.out(D_INFO, "Found String Def for AfterChar");
-                            }
+                            
                             dis.out(D_INFO, "Check if First and Second is equal > " + FirstClause + " : " + SecondClause);
                             
-                            output = FirstClause == SecondClause;
+                            switch (CharUse)
+                            {
+                            case '=':
+                                output = FirstClause == SecondClause;
+                                break;
+                            case '>':
+                                if (isInt)
+                                    output = FirstClause > SecondClause;
+                                else
+                                    Pable_ERROR("Can only do \'>\' on a number not a string!");
+                                break;
+                            case '<':
+                                if (isInt)
+                                    output = FirstClause < SecondClause;
+                                else
+                                    Pable_ERROR("Can only do \'<\' on a number not a string!");
+                                break;
+                            case '!':
+                                if (isInt)
+                                    output = FirstClause != SecondClause;
+                                else
+                                    Pable_ERROR("Can only do \'!\' on a number not a string!");
+                                break;
+                            default:
+                                Pable_ERROR("Operation not supported!");
+                                break;
+                            }
                             
                         }
 
