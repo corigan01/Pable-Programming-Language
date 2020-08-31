@@ -14,22 +14,33 @@ Pable is a programming language that we made to help abstract the complex librar
 We are not finished with Pable, but this is to show the progress that we have made so far. 
 
 The following things are what we will add support *short-term*:
-**Functions**
-**Classes**
-**Floats**
-**Chars**
-**For loops**
-**Libraries**
-**Arrays, lists**
-**--And MUCH MUCH More!**
+**Functions**, 
+
+**Classes**, 
+
+**Floats**, 
+
+**Chars**, 
+
+**For loops**, 
+
+**Libraries**, 
+
+**Arrays, lists**, 
+
+**--And MUCH MUCH More!**, 
+
 
 The following things are what we will add support *long-term*:
-**Sockets**
-**Graphics** - We are looking at adding Raylib support for a importable
-**Compile Options**
+**Sockets**, 
+
+**Graphics** - We are looking at adding Raylib support for a importable, 
+
+**Compile Options**, 
 
 
-#What makes Pable different?
+
+# What makes Pable different?
 
 We want Pable to be able to compile to a desktop app, this will work just like C and C++. A exe/.out file that you can simply run. 
 
