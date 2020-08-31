@@ -7,7 +7,7 @@ A new way of using a programming language.
 
 The Pable Programming language is not made to win. It is made to continue. We know we are not the best and most complete language. We made pable to help us in programming more advanced things. 
 
-# Why Pable
+# Why Pable?
 Pable is a programming language that we made to help abstract the complex libraries that we made. We want something that is easy to use but can expand as much as possible.  
 
 # Whats ahead?
