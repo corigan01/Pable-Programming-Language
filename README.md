@@ -5,7 +5,8 @@ A new way of using a programming language.
 
 ![1770874-9188](https://storage.googleapis.com/replit/images/1598901535554_220f8fba7faf4706aa6733bfbdcd0e08.png)
 
-The Pable Programming language is not made to win. It is made to continue. We know we are not the best and most complete language. We made pable to help us in programming more advanced things. 
+The Pable Programming language is not made to win. It is made to continue. We know we are not the best and most complete language. We made pable to help us in programming more advanced projects down the road. We want people to continue looking at Pable and see the progress that we will make. Pable was created by two high school friends that met at a CodeDay event while in middle school.  Juggling work and school starting back up and 1,000 miles betweeen us, we did the best we could to compete in the Jam. We did not have time to complete Pable to the same extent as some as the other languages. In all that we still love Pable even thogh it is not finished.
+
 
 # Why Pable?
 Pable is a programming language that we made to help abstract the complex libraries that we made. We want something that is easy to use but can expand as much as possible.  
@@ -50,20 +51,26 @@ And Finally we want Pable to be able to compile to a java like environment for s
 
 
 # What we have
+
 **Strings**
+
 **Ints**
+
 **Operations (+-*/)** -- you can use multiple at a time :)
+
 **while**
+
 **if**
+
 **out**
+
 **color_out**
 
-# How to use our language 
+# How to use Pable
 
-To start we made a simple beer count down: 
+To start we made a simple bottles of beer on the wall program: 
 ```
 # this program will show a basic 'for' loop using a 'while' loop and a var named i
-# 
 
 int i = 99 # set i to how many beer bottles we have
 
