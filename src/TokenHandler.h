@@ -3,7 +3,13 @@
 
 #include "TokenFunctions.h"
 
+class Scope {
+public:
+    std::vector<std::string> LineInScope;
+    int LineId = 0;
 
+
+};
 
 
 

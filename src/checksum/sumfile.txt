@@ -1,10 +1,10 @@
 9ca5a79d0c373ecd7eba77e2d95e4c0d  displayout.cpp
 b754e6ea9248c714289061b0f2551092  FileIO.cpp
-5e0de030f954af1b9ef86f7c80a048d1  main.cpp
+10f8cf6910b6ffb2cf5295cb48711363  main.cpp
 d41d8cd98f00b204e9800998ecf8427e  tokenizer.cpp
-973c921ce19977a0905341c2f0222944  Base.h
+60b0f301162c22754b81016f28f4676c  Base.h
 91ce572542ee178d8eeb72ea47b8fd2f  displayout.h
 b019f85f11e90026e0e5f5c67e9d0a16  FileIO.h
-5c5b4b636ac577db3254e5201d433785  TokenFunctions.h
-c1b034807c744cfa68e9bc52d7cdb9f9  TokenHandler.h
+ba802b16009fc055cd679a36a0dc4b79  TokenFunctions.h
+f41c9e2c40a15a3b010662b65cadbda3  TokenHandler.h
 11aa88738851fb568c0bade851d0d3b4  tokenizer.h

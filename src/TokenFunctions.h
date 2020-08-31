@@ -20,7 +20,7 @@ struct StringSplit
 
 
 void Pable_ERROR(std::string Error, bool breakstop = true) {
-    dis.out(D_ERROR, "Line " + std::to_string(WorkingLine) + ": " + Error );
+    dis.out(D_ERROR, "Line " + std::to_string(WorkingLine + 1) + ": " + Error );
 
     if (breakstop) {
         //usleep(1000000);
@@ -74,6 +74,48 @@ void RemoveWhiteSpaceBack(std::string &Content) {
 }
 
 
+bool CheckIfVar(std::vector<Var> ScopeVar, std::string Arg) {
+    for (auto i : ScopeVar) {
+        if (i.VarName == Arg)
+            return true;
+        else 
+            return false;
+    }
+
+    return false;
+}
+
+std::string FoundVarContent(std::vector<Var> ScopeVar, std::string Arg) {
+     int FindEnd = Arg.find_first_of(")");
+
+    if (FindEnd == -1) {
+        Pable_ERROR("You need to have end a function call with \')\'");
+    }
+
+
+    std::string CouldBeVar = "";
+
+    for (int e = 0; e < FindEnd; e++) {
+        CouldBeVar.push_back(Arg[e]);
+    }
+
+    dis.out(D_DEBUG, CouldBeVar);
+
+    bool flagFound = 0;
+    for (auto e : ScopeVar) {
+        if (CouldBeVar == e.VarName) {
+            
+            return e.VarContent;
+            
+            flagFound = 1;
+            break;
+        }
+    }
+
+    return "";
+
+}
+
 
 bool IsfoundinVar(std::vector<Var> ScopeVar, std::string Arg) {
 
@@ -95,7 +137,9 @@ bool IsfoundinVar(std::vector<Var> ScopeVar, std::string Arg) {
     bool flagFound = 0;
     for (auto e : ScopeVar) {
         if (CouldBeVar == e.VarName) {
+            
             std::cout << e.VarContent << std::endl;
+            
             flagFound = 1;
             break;
         }
