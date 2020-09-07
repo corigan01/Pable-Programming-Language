@@ -1,17 +1,17 @@
-int i = 99
+int i = 9
 
 while (i > 0)
 
 out (i)
 color_out("bottles of beer on the wall", GREEN)
 
-readfile("ascii_art.txt")
 
 i = i - 1
 
 if (i = 0)
-color_out("", BLUE)
+color_out("Done!", BLUE)
 
 end 
 
 
+help

@@ -7,6 +7,7 @@ int main(int argc, char** argv) {
     auto start = std::chrono::high_resolution_clock::now();
     std::ios_base::sync_with_stdio(false); 
     
+    // arg input
     std::string WorkingFileName = "";
 
     for (int i = 0; i < argc; i ++) {
@@ -71,7 +72,7 @@ Example on basic use
 
 
     
-    
+    // token start
 
     FileIO file;
     file.ReadFile(WorkingFileName);
@@ -183,7 +184,7 @@ Example on basic use
             }
         }
 
-//Pabble_in()
+//Pable_in()
         int found_input = i.find("in(");
         eb = i.size();
         if (found_input != -1) {
@@ -203,7 +204,7 @@ Example on basic use
 
             i.insert(found_input, pableInput);
         }
-//Pabble_Randomizer
+//Pable_Randomizer
         int foundRand_input = i.find("rand(");
         eb = i.size();
         if (found_input != -1) {
@@ -332,7 +333,6 @@ Example on basic use
         dis.out(D_DEBUG, "FINALS2 = " + FinalS2);
 
         char FirstCharInFinal = FinalS2Pre[0];
-
         int FinalOutput = 0;
 
         dis.out(D_FILE, "Got " + FinalS1 + " and " + FinalS2 + " for calculation!");
@@ -1040,7 +1040,7 @@ Example on basic use
                     Pable_vars.push_back(TempVar);
                 }
                 else {
-                    Pable_ERROR("Unknown char --> " + LatArg[0]);
+                    Pable_ERROR("Unknown char --> " + std::to_string(LatArg[0]));
                 }
 
             }
