@@ -1,5 +1,9 @@
 # this program will show a basic 'for' loop using a 'while' loop and a var named i
 # 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0124f9045085bf7aef24ad9f104070e1826a9b85
 int i = 9
 
 
@@ -33,5 +37,9 @@ color_out("Done!", BLUE)
 
 
 
+<<<<<<< HEAD
 
 help
+=======
+help
+>>>>>>> 0124f9045085bf7aef24ad9f104070e1826a9b85
