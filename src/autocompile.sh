@@ -9,8 +9,6 @@ if diff "checksum/OldCheck.txt" "checksum/sumfile.txt" > /dev/null; then
 
 else
 
-md5sum *.cpp *.h > sumfile.txt
-
     echo
     echo Compiling...
     echo
@@ -37,7 +35,7 @@ md5sum *.cpp *.h > checksum/sumfile.txt
 
     cd ..
 
-    time ./Compiler main.pable # --DEBUG_INFO # run
+    time ./Compiler main.pable  --DEBUG_INFO # run
 
     echo
     echo Done!
