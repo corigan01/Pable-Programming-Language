@@ -1,8 +1,8 @@
 #ifndef __TOKEN_SPLIT_H
 #define __TOKEN_SPLIT_H
 
-#include "base.h"
-#include "tokenFunctions.h"
+#include "Base.h"
+#include "TokenFunctions.h"
 #include "FileIO.h"
 
 class FileTokens : private FileIO {
@@ -12,7 +12,7 @@ class FileTokens : private FileIO {
         ~FileTokens();
 
         
-        b
+        // b
         
  
 
