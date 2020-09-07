@@ -1,17 +1,25 @@
-int i = 99
+# this program will show a basic 'for' loop using a 'while' loop and a var named i
+# 
 
-while (i > 0)
 
-out (i)
-color_out("bottles of beer on the wall", GREEN)
+int i = 99 # set i to how many beer bottles we have
 
-readfile("ascii_art.txt")
+while (i ! 0) # while to count down 
 
-i = i - 1
+out (i) # output the beer bottle that we are on
+color_out("bottles of beer on the wall", GREEN) # we output in GREEN
 
-if (i = 0)
-color_out("", BLUE)
+i = i - 1 + 0 * 1 # this is to show that we can do multiple operations together
 
-end 
+
+readfile("ascii_art.txt") # displays the contents of ascii_art.txt
+
+
+if (i = 0) # this is to see if we finish
+color_out("We finsihed all the beer", BLUE) # output in blue when we are done
+
+end
+
+
 
 
