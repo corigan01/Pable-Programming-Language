@@ -1,11 +1,11 @@
-# this program will show a basic 'for' loop using a 'while' loop and a var named i
-# 
-
 int i = 9
 
 
 
 int i = 99 # set i to how many beer bottles we have
+
+
+while (i ! 0) # while to count down 
 
 
 while (i ! 0) # while to count down 
@@ -28,7 +28,3 @@ end
 
 if (i = 0)
 color_out("Done!", BLUE)
-
-
-
-help
