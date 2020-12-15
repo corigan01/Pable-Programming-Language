@@ -2,13 +2,8 @@ int i = 9
 
 
 
-int i = 99 # set i to how many beer bottles we have
-
-
 while (i ! 0) # while to count down 
 
-
-while (i ! 0) # while to count down 
 
 
 out (i) # output the beer bottle that we are on
@@ -17,7 +12,7 @@ color_out("bottles of beer on the wall", GREEN) # we output in GREEN
 i = i - 1 + 0 * 1 # this is to show that we can do multiple operations together
 
 
-readfile("ascii_art.txt") # displays the contents of ascii_art.txt
+#readfile("ascii_art.txt") # displays the contents of ascii_art.txt
 
 
 if (i = 0) # this is to see if we finish
@@ -26,5 +21,4 @@ color_out("We finsihed all the beer", BLUE) # output in blue when we are done
 end
 
 
-if (i = 0)
-color_out("Done!", BLUE)
+
